@@ -77,7 +77,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(string(getEpidemicData()))
-	http.Handle("/", http.FileServer(http.Dir("static")))
+	http.Handle("/", http.FileServer(http.Dir("../static")))
 	http.HandleFunc("/api", ApiRequest)
 	http.ListenAndServe(":8080", nil)
 }
