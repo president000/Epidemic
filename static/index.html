@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>疫情拐点</title>
+</head>
+
+<body>
+    <style type="text/css">
+        .main {
+            margin: 0 auto;
+            width: 65%;
+        }
+
+        p {
+            text-indent: 2em;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+    <div class="main">
+        <div>
+            <h1 align="center">疫情拐点</h1>
+            <p align="left">拐点定义：若该曲线图形的函数在某点的二阶导数为零或不存在，
+                且二阶导数在该点两侧符号相反，该点即为函数的拐点。
+            </p>
+            <p align="left">基于拐点的定义，疫情的拐点是每日病毒感染人数二阶导数为零，
+                且二阶导数在该点两侧符号相反的时候。但是病毒每日感染人数难以统计，
+                只能统计到每日疑似病例和确诊病例。因此我们计算每日疑似病例和确诊病例的二阶导数，
+                以此判断疫情的拐点。
+            </p>
+        </div>
+        <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+            <script src="EpidemicData.js"></script>
+            <div>
+                <canvas id="add"></canvas>
+            </div>
+            <div>
+                <canvas id="rate"></canvas>
+            </div>
+            <script>
+                HttpGet("/api", HandleResponse)
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
