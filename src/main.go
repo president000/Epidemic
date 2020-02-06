@@ -39,19 +39,29 @@ func InitEpidemicData() error {
 
 func updateEpidemicDataTimer() {
 	now_time := time.Now().Hour()
-	left_time := 12
-	if now_time >= 12 {
-		left_time += 24
+	var left_time int
+	if now_time < 12 {
+		left_time = 12 -now_time
+	} else {
+		left_time = 24 + 8 - now_time
 	}
+	fmt.Println(left_time)
 	t := time.NewTimer(time.Hour * time.Duration(left_time))
 	defer t.Stop()
 	for {
 		<- t.C
+		old_length := len(getEpidemicData())
 		err := updateEpidemicData()
 		if err != nil {
 			panic(err)
 		}
-		t.Reset(time.Hour * 24)
+		if old_length != len(getEpidemicData()) {
+			fmt.Println("updated")
+			t.Reset(time.Hour * time.Duration(24 + 8 - time.Now().Hour()))
+		} else {
+			fmt.Println("update faile")
+			t.Reset(time.Hour * 1)
+		}
 	}
 }
 
@@ -73,10 +83,9 @@ func updateEpidemicData() error {
 }
 
 func main() {
-	if err := updateEpidemicData(); err != nil {
+	if err := InitEpidemicData(); err != nil {
 		panic(err)
 	}
-	fmt.Println(string(getEpidemicData()))
 	http.Handle("/", http.FileServer(http.Dir("../static")))
 	http.HandleFunc("/api", ApiRequest)
 	http.ListenAndServe(":8080", nil)
