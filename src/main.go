@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 	"sync"
 	"time"
 )
@@ -103,24 +102,8 @@ func calcInflectionPoint(data []interface{}) error {
 			value["suspect_rate"] = 0
 		} else {
 			previous := data[i - 1].(map[string]interface{})
-			temp_1, err := strconv.Atoi(value["confirm"].(string))
-			if err != nil {
-				return err
-			}
-			temp_2, err := strconv.Atoi(previous["confirm"].(string))
-			if err != nil {
-				return err
-			}
-			temp_3, err := strconv.Atoi(value["suspect"].(string))
-			if err != nil {
-				return err
-			}
-			temp_4, err := strconv.Atoi(previous["suspect"].(string))
-			if err != nil {
-				return err
-			}
-			value["confirm_rate"] = temp_1 - temp_2
-			value["suspect_rate"] = temp_3 - temp_4
+			value["confirm_rate"] = value["confirm"].(float64) - previous["confirm"].(float64)
+			value["suspect_rate"] = value["suspect"].(float64) - previous["suspect"].(float64)
 		}
 	}
 	return nil
