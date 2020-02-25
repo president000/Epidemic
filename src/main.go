@@ -40,7 +40,7 @@ func updateEpidemicDataTimer() {
 	now_time := time.Now().Hour()
 	var left_time int
 	if now_time < 12 {
-		left_time = 12 -now_time
+		left_time = 12 - now_time
 	} else {
 		left_time = 24 + 8 - now_time
 	}
@@ -110,7 +110,7 @@ func calcInflectionPoint(data []interface{}) error {
 }
 
 func getDayAddList() ([]interface {}, error) {
-	resp, err := http.Get("https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5")
+	resp, err := http.Get("https://view.inews.qq.com/g2/getOnsInfo?name=disease_other")
 	if err != nil {
 		return nil, err
 	}
